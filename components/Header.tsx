@@ -1,5 +1,5 @@
 import { checkUser } from "@/lib/CheckUser";
-import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { Show, SignInButton,  SignUpButton, UserButton } from "@clerk/nextjs";
 
 
 const Header = async () => {
@@ -28,3 +28,21 @@ const Header = async () => {
 };
 
 export default Header;
+
+
+
+
+
+// components/Header.tsx
+// import AuthButtons from "./AuthButtons";
+
+// const Header = () => {
+//   return (
+//     <nav className="flex justify-between p-4 border">
+//       <h1 className="font-bold">My App</h1>
+//       <AuthButtons />
+//     </nav>
+//   );
+// };
+
+// export default Header;
