@@ -1,36 +1,22 @@
 
-// import Guest from '@/components/Guest';
-// import { currentUser } from '@clerk/nextjs/server';
-// import React from 'react'
+import Guest from '@/components/Guest';
+import { currentUser } from '@clerk/nextjs/server';
+import React from 'react'
 
-// const HomePage = async () => {
-//   const user = await currentUser()
+const HomePage = async () => {
+  const user = await currentUser()
   
-//   if (!user) return <Guest />
+  if (!user) return <Guest />
   
 
-//   return (
-//     <main>
-//       <h1>Welcome {user?.firstName} {user?.lastName}</h1>
-      
-//     </main>
-
-//   )
-// }
-
-// export default HomePage;
-
-
-
-
-// app/page.tsx
-import Header from "@/components/Header";
-
-export default function Home() {
   return (
-    <div>
-      <Header />
-      <h1 className="text-center mt-10">Home Page</h1>
-    </div>
-  );
+    <main>
+      <h1>Welcome {user?.firstName} {user?.lastName}</h1>
+      
+    </main>
+
+  )
 }
+
+export default HomePage;
+

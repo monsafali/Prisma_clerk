@@ -3,24 +3,35 @@ import prisma from "./prisma";
 
 export const checkUser = async () => {
   const user = await currentUser();
-
   if (!user) return null;
 
-  const LoggedIn = await prisma.user.findUnique({
+  const email = user.emailAddresses[0].emailAddress;
+
+  // 🔍 Check by clerkUserId OR email
+  let existingUser = await prisma.user.findFirst({
     where: {
-      clerkUserId: user.id,
+      OR: [{ clerkUserId: user.id }, { email: email }],
     },
   });
 
-  // ✅ If user already exists
-  if (LoggedIn) return LoggedIn;
+  // ✅ If user exists → update clerkUserId if missing
+  if (existingUser) {
+    // Optional: sync clerkUserId if not set
+    if (!existingUser.clerkUserId) {
+      existingUser = await prisma.user.update({
+        where: { id: existingUser.id },
+        data: { clerkUserId: user.id },
+      });
+    }
+    return existingUser;
+  }
 
-  // ✅ If NOT exists → create new user
+  // ✅ Otherwise create new
   const newUser = await prisma.user.create({
     data: {
       clerkUserId: user.id,
       name: user.fullName,
-      email: user.emailAddresses[0].emailAddress,
+      email,
       imageUrl: user.imageUrl,
     },
   });
